@@ -28,7 +28,7 @@ type Config struct {
 	Cmd        interface{}       `mapstructure:"cmd"`
 	Label      map[string]string `mapstructure:"label"`
 	Expose     []string          `mapstructure:"expose"`
-	Env        map[string]string `mapstructure:"env"`
+	Env        string            `mapstructure:"env"`
 	Entrypoint interface{}       `mapstructure:"entrypoint"`
 	Volume     []string          `mapstructure:"volume"`
 	User       string            `mapstructure:"user"`
@@ -98,8 +98,8 @@ func (p *PostProcessor) PostProcess(ui packer.Ui, artifact packer.Artifact) (pac
 {{ end }}{{ if .Cmd }}CMD {{ process .Cmd }}
 {{ end }}{{ if .Label }}{{ range $k, $v := .Label }}LABEL "{{ $k }}"="{{ $v }}"
 {{ end }}{{ end }}{{ if .Expose }}EXPOSE {{ join .Expose " " }}
-{{ end }}{{ if .Env }}{{ range $k, $v := .Env }}ENV {{ $k }} {{ $v }}
-{{ end }}{{ end }}{{ if .Entrypoint }}ENTRYPOINT {{ process .Entrypoint }}
+{{ end }}{{ if .Env }}ENV {{ .Env }}
+{{ end }}{{ if .Entrypoint }}ENTRYPOINT {{ process .Entrypoint }}
 {{ end }}{{ if .Volume }}VOLUME {{ process .Volume }}
 {{ end }}{{ if .User }}USER {{ .User }}
 {{ end }}{{ if .WorkDir }}WORKDIR {{ .WorkDir }}{{ end }}`
